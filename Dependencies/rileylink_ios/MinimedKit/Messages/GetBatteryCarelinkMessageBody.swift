@@ -25,25 +25,35 @@ public enum BatteryStatus: Equatable {
     }
 }
 
-public class GetBatteryCarelinkMessageBody: CarelinkLongMessageBody {
+public class GetBatteryCarelinkMessageBody: DecodableMessageBody {
+    public static var length: Int = 65
+
+    public var txData: Data
+
     public let status: BatteryStatus
     public let volts: Double
     
     public required init?(rxData: Data) {
-        guard rxData.count == type(of: self).length else {
-            volts = 0
-            status = .unknown(rawVal: 0)
-            super.init(rxData: rxData)
+        guard rxData.count == Self.length else {
             return nil
         }
         
         volts = Double(Int(rxData[2]) << 8 + Int(rxData[3])) / 100.0
         status = BatteryStatus(statusByte: rxData[1])
-        
-        super.init(rxData: rxData)
+        txData = rxData
     }
 
-    public required init?(rxData: NSData) {
-        fatalError("init(rxData:) has not been implemented")
+    init(status: BatteryStatus, volts: Double) {
+        self.status = status
+        self.volts = volts
+        self.txData = Data().paddedTo(length: Self.length)
+        let voltsInt = Int(volts * 100)
+        txData[2] = UInt8(voltsInt >> 8 & 0xff)
+        txData[3] = UInt8(voltsInt & 0xff)
     }
+
+    public var description: String {
+        return "GetBattery(status:\(status), volts:\(volts))"
+    }
+
 }

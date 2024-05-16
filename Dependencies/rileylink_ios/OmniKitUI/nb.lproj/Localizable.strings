@@ -35,9 +35,6 @@
 /* The title of the cell showing the pod activated at time */
 "Active Time" = "Aktiveringstidspunkt";
 
-/* The title of the cell showing the Pod Active Clock */
-"Pod Active Clock" = "Pod aktiv";
-
 /* The title of the cell showing alarm status */
 "Alarms" = "Alarmer";
 
@@ -69,10 +66,7 @@
 "Changing time…" = "Endrer tid...";
 
 /* The title of the configuration section in settings */
-"Configuration" = "Konfigurasjon";
-
-/* The title of the Insulin Type */
-"Insulin Type" = "Insulintype";
+"Configuration" = "Oppsett";
 
 /* The title of the continue action in an action sheet */
 "Continue" = "Fortsett";
@@ -105,18 +99,6 @@
 /* The alert title for enable bolus beeps error */
 "Error enabling bolus beeps" = "Kunne ikke slå på lyd ved bolus";
 
-/* The alert title for enable Confirmation Beeps */
-"Enable Confirmation Beeps" = "Slå på lyd for bekreftelse";
-
-/* The alert title for Disable Confirmation Beep */
-"Disable Confirmation Beeps" = "Slå av lyd for bekreftelse";
-
-/* The alert title for enable Automatic Bolus Beeps */
-"Enable Automatic Bolus Beeps" = "Slå på lyd for bekreftelse av Auto-bolus";
-
-/* The alert title for Disable Automatic Bolus Beeps */
-"Disable Automatic Bolus Beeps" = "Slå av lyd for bekreftelse av Auto-bolus";
-
 /* The alert title for a resume error */
 "Error Resuming" = "Kunne ikke fortsette";
 
@@ -142,10 +124,10 @@
 "Greater than %1$@ units remaining at %2$@" = "Flere enn %1$@ enheter gjenstår klokken %2$@";
 
 /* Instructions when deactivating pod that has been paired, but not attached. */
-"Incompletely set up pod must be deactivated before pairing with a new one. Please deactivate and discard pod." = "Ufullstendig oppsatt pod må deaktiveres før sammenkobling med en ny. Vennligst deaktiver og kast pod.";
+"Incompletely set up pod must be deactivated before pairing with a new one. Please deactivate and discard pod." = "Ufullstendig parkoblet pod må deaktiveres før sammenkobling med en ny. Vennligst deaktiver og kast pod.";
 
 /* Instructions when deactivating pod that has been paired and possibly attached. */
-"Incompletely set up pod must be deactivated before pairing with a new one. Please deactivate and remove pod." = "Ufullstendig oppsatt pod må deaktiveres før sammenkobling med en ny. Vennligst deaktiver og fjern pod.";
+"Incompletely set up pod must be deactivated before pairing with a new one. Please deactivate and remove pod." = "Ufullstendig parkoblet pod må deaktiveres før sammenkobling med en ny. Vennligst deaktiver og fjern pod.";
 
 /* Button title to insert cannula during setup */
 "Insert Cannula" = "Sett inn kanyle";
@@ -247,15 +229,3 @@
 
 /* The detail text for delivered insulin when no measurement is available */
 "Unknown" = "Ukjent";
-
-/* The title of the diagnostics section in settings */
-"Diagnostics" = "Diagnostikk";
-
-/* The diagnostic command Read Pod Status */
-"Read Pod Status" = "Les Pod-status";
-
-/* The diagnostic command Read Pulse Log */
-"Read Pulse Log" = "Les pulslogg";
-
-/* The title of the pod details section in settings */
-"Pod Details" = "Pod-info";

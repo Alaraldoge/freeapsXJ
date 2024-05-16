@@ -9,7 +9,7 @@
 
 /* Format string for delivered insulin. (1: The localized amount)
    Format string for insulin remaining in reservoir. (1: The localized amount) */
-"%@ U" = "%@ E";
+"%@ U" = "%@ IE";
 
 /* Format string for bolus progress when finished. (1: The localized amount) */
 "%@ U (Finished)" = "%@ E (Klar)";
@@ -34,9 +34,6 @@
 
 /* The title of the cell showing the pod activated at time */
 "Active Time" = "Aktiv tid";
-
-/* The title of the cell showing the Pod Active Clock */
-"Pod Active Clock" = "Klocka, podd aktiv";
 
 /* The title of the cell showing alarm status */
 "Alarms" = "Larm";
@@ -71,9 +68,6 @@
 /* The title of the configuration section in settings */
 "Configuration" = "Konfiguration";
 
-/* The title of the Insulin Type */
-"Insulin Type" = "Typ av insulin";
-
 /* The title of the continue action in an action sheet */
 "Continue" = "Fortsätt";
 
@@ -105,23 +99,11 @@
 /* The alert title for enable bolus beeps error */
 "Error enabling bolus beeps" = "Fel vid aktivering av bolusljud";
 
-/* The alert title for enable Confirmation Beeps */
-"Enable Confirmation Beeps" = "Sätt på bekräftelsepip";
-
-/* The alert title for Disable Confirmation Beep */
-"Disable Confirmation Beeps" = "Stäng av bekräftelsepip";
-
-/* The alert title for enable Automatic Bolus Beeps */
-"Enable Automatic Bolus Beeps" = "Sätt på pip vid automatiska bolusar";
-
-/* The alert title for Disable Automatic Bolus Beeps */
-"Disable Automatic Bolus Beeps" = "Stäng av pip vid automatiska bolusar";
-
 /* The alert title for a resume error */
 "Error Resuming" = "Fel vid återupptagande";
 
 /* The alert title for a suspend error */
-"Error Suspending" = "Fel vid försök till paus";
+"Error Suspending" = "Kunde inte pausa pump";
 
 /* The title of the cell showing the pod expiration reminder date */
 "Expiration Reminder" = "Påminnelse om utgångsdatum";
@@ -247,15 +229,3 @@
 
 /* The detail text for delivered insulin when no measurement is available */
 "Unknown" = "Okänd";
-
-/* The title of the diagnostics section in settings */
-"Diagnostics" = "Diagnostiska kommandon";
-
-/* The diagnostic command Read Pod Status */
-"Read Pod Status" = "Läs Poddstatus";
-
-/* The diagnostic command Read Pulse Log */
-"Read Pulse Log" = "Läs pulslogg";
-
-/* The title of the pod details section in settings */
-"Pod Details" = "Poddetaljer";

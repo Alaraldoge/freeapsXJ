@@ -39,9 +39,14 @@ import Swinject
         _ = resolver.resolve(UserNotificationsManager.self)!
         _ = resolver.resolve(WatchManager.self)!
         _ = resolver.resolve(HealthKitManager.self)!
+        _ = resolver.resolve(BluetoothStateManager.self)!
     }
 
     init() {
+        debug(
+            .default,
+            "FreeAPS X Started: v\(Bundle.main.releaseVersionNumber ?? "")(\(Bundle.main.buildVersionNumber ?? "")) [buildDate: \(Bundle.main.buildDate)]"
+        )
         loadServices()
     }
 

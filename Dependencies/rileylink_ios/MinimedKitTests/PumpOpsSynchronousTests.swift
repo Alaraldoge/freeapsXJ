@@ -20,7 +20,7 @@ class PumpOpsSynchronousTests: XCTestCase {
     var pumpID: String!
     var pumpRegion: PumpRegion!
     var pumpModel: PumpModel!
-    var messageSenderStub: PumpMessageSenderStub!
+    var mockMessageSender: MockPumpMessageSender!
 
     let dateComponents2007 = DateComponents(calendar: Calendar.current, year: 2007, month: 1, day: 1)
     let dateComponents2017 = DateComponents(calendar: Calendar.current, year: 2017, month: 1, day: 1)
@@ -42,11 +42,11 @@ class PumpOpsSynchronousTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        pumpID = "350535"
+        pumpID = "636781"
         pumpRegion = .worldWide
         pumpModel = PumpModel.model523
 
-        messageSenderStub = PumpMessageSenderStub()
+        mockMessageSender = MockPumpMessageSender()
         
         setUpSUT()
     }
@@ -58,7 +58,7 @@ class PumpOpsSynchronousTests: XCTestCase {
         pumpState.pumpModel = pumpModel
         pumpState.awakeUntil = Date(timeIntervalSinceNow: 100) // pump is awake
         
-        sut = PumpOpsSession(settings: pumpSettings, pumpState: pumpState, session: messageSenderStub, delegate: messageSenderStub)
+        sut = PumpOpsSession(settings: pumpSettings, pumpState: pumpState, messageSender: mockMessageSender, delegate: mockMessageSender)
     }
     
     /// Duplicates logic in setUp with a new PumpModel
@@ -67,6 +67,76 @@ class PumpOpsSynchronousTests: XCTestCase {
     func setUpTestWithPumpModel(_ newPumpModel: PumpModel) {
         pumpModel = newPumpModel
         setUpSUT()
+    }
+
+    var ack: PumpMessage {
+        return PumpMessage(pumpID: pumpID, type: .pumpAck)
+    }
+
+    func testSetNormalBolus() {
+
+        mockMessageSender.responses = [
+            .readPumpStatus: [mockMessageSender.makeMockResponse(.readPumpStatus, ReadPumpStatusMessageBody(bolusing: false, suspended: false))],
+            .bolus: [ack, ack],
+        ]
+
+        let result = sut.setNormalBolus(units: 1)
+
+        XCTAssertNil(result)
+    }
+
+    func testSetNormalBolusWhileBolusing() {
+
+        mockMessageSender.responses = [
+            .readPumpStatus: [mockMessageSender.makeMockResponse(.readPumpStatus, ReadPumpStatusMessageBody(bolusing: true, suspended: false))],
+            .bolus: [ack, ack],
+        ]
+
+        let result = sut.setNormalBolus(units: 1)
+
+        XCTAssertNotNil(result)
+
+        if case SetBolusError.certain(PumpOpsError.bolusInProgress) = result! {
+             // pass
+        } else {
+             XCTFail("Expected bolus in progress error, got: \(result!)")
+        }
+    }
+
+    func testSetNormalBolusWhileSuspended() {
+
+        mockMessageSender.responses = [
+            .readPumpStatus: [mockMessageSender.makeMockResponse(.readPumpStatus, ReadPumpStatusMessageBody(bolusing: false, suspended: true))],
+            .bolus: [ack, ack],
+        ]
+
+        let result = sut.setNormalBolus(units: 1)
+
+        XCTAssertNotNil(result)
+
+        if case SetBolusError.certain(PumpOpsError.pumpSuspended) = result! {
+             // pass
+        } else {
+             XCTFail("Expected pump suspended error, got: \(result!)")
+        }
+    }
+
+    func testSetNormalBolusUncertain() {
+        mockMessageSender.responses = [
+            .readPumpStatus: [mockMessageSender.makeMockResponse(.readPumpStatus, ReadPumpStatusMessageBody(bolusing: false, suspended: false))],
+            .bolus: [ack], // Second ack missing will cause PumpOpsError.noReponse during second exchange
+        ]
+
+        let result = sut.setNormalBolus(units: 1)
+
+        XCTAssertNotNil(result)
+
+        switch result {
+        case .uncertain:
+            break
+        default:
+            XCTFail("Expected pump suspended error, got: \(result!)")
+        }
     }
     
     func testShouldContinueIfTimestampBeforeStartDateNotEncountered() {
@@ -312,91 +382,7 @@ func randomDataString(length:Int) -> String {
     return s
 }
 
-class PumpMessageSenderStub: PumpMessageSender {
-    func getRileyLinkStatistics() throws -> RileyLinkStatistics {
-        throw PumpOpsError.noResponse(during: "Tests")
-    }
-    
-    func sendAndListen(_ data: Data, repeatCount: Int, timeout: TimeInterval, retryCount: Int) throws -> RFPacket {
-        guard let decoded = MinimedPacket(encodedData: data),
-              let messageType = MessageType(rawValue: decoded.data[4])
-        else {
-            throw PumpOpsError.noResponse(during: "Tests")
-        }
 
-        let response: PumpMessage
-
-        if let responseArray = responses[messageType] {
-            let numberOfResponsesReceived: Int
-
-            if let someValue = responsesHaveOccured[messageType] {
-                numberOfResponsesReceived = someValue
-            } else {
-                numberOfResponsesReceived = 0
-            }
-
-            let nextNumberOfResponsesReceived = numberOfResponsesReceived + 1
-            responsesHaveOccured[messageType] = nextNumberOfResponsesReceived
-
-            if numberOfResponsesReceived >= responseArray.count {
-                XCTFail()
-            }
-
-            response = responseArray[numberOfResponsesReceived]
-        } else {
-            response = PumpMessage(rxData: Data())!
-        }
-
-        var encoded = MinimedPacket(outgoingData: response.txData).encodedData()
-        encoded.insert(contentsOf: [0, 0], at: 0)
-        
-        guard let rfPacket = RFPacket(rfspyResponse: encoded) else {
-            throw PumpOpsError.noResponse(during: data)
-        }
-
-        return rfPacket
-    }
-
-    func listen(onChannel channel: Int, timeout: TimeInterval) throws -> RFPacket? {
-        throw PumpOpsError.noResponse(during: "Tests")
-    }
-
-    func send(_ data: Data, onChannel channel: Int, timeout: TimeInterval) throws {
-        // Do nothing
-    }
-
-    func updateRegister(_ address: CC111XRegister, value: UInt8) throws {
-        throw PumpOpsError.noResponse(during: "Tests")
-    }
-    
-    func resetRadioConfig() throws {
-        throw PumpOpsError.noResponse(during: "Tests")
-    }
-
-    func setBaseFrequency(_ frequency: Measurement<UnitFrequency>) throws {
-        throw PumpOpsError.noResponse(during: "Tests")
-    }
-    
-    func setCCLEDMode(_ mode: RileyLinkLEDMode) throws {
-        throw PumpOpsError.noResponse(during: "Tests")
-    }
-    
-    var responses = [MessageType: [PumpMessage]]()
-    
-    // internal tracking of how many times a response type has been received
-    private var responsesHaveOccured = [MessageType: Int]()
-}
-
-extension PumpMessageSenderStub: PumpOpsSessionDelegate {
-    func pumpOpsSession(_ session: PumpOpsSession, didChange state: PumpState) {
-
-    }
-    
-    func pumpOpsSessionDidChangeRadioConfig(_ session: PumpOpsSession) {
-        
-    }
-
-}
 
 func array(_ timestampedEvents: [TimestampedHistoryEvent], containsPumpEvent pumpEvent: PumpEvent) -> Bool {
     let event = timestampedEvents.first { $0.pumpEvent.rawData == pumpEvent.rawData }

@@ -3,7 +3,7 @@
 "%1$@ %2$@" = "%1$@ %2$@";
 
 /* Accessibility format string for (1: localized volume)(2: time) */
-"%1$@ units remaining at %2$@" = "%1$@ units remaining at %2$@";
+"%1$@ units remaining at %2$@" = "%1$@ unità rimanenti alle ore %2$@";
 
 /* The format for a glucose target range. (1: min target)(2: max target)(3: glucose unit) */
 "%1$@ – %2$@ %3$@" = "%1$@ – %2$@ %3$@";
@@ -21,7 +21,7 @@
 "Absorption Time" = "Tempo di assorbimento";
 
 /* The title for the override emoji activity section */
-"Activity" = "Activity";
+"Activity" = "Attività";
 
 /* Action sheet confirmation message for pump history deletion */
 "Are you sure you want to delete all history entries?" = "Sei sicuro di voler eliminare tutti gli inserimenti storiche?";
@@ -90,7 +90,7 @@
 "Correction range is the blood glucose range that you would like Loop to correct to." = "L’intervallo di correzione è l’intervallo di glicemia al quale vuoi che si regoli Loop.";
 
 /* The text for a custom override */
-"Custom" = "Personalizzata";
+"Custom" = "Personalizzato";
 
 /* The title for the custom override entry screen */
 "Custom Override" = "Regolazione manuale personalizzata";
@@ -129,7 +129,7 @@
 "Insulin sensitivity describes how your blood glucose should respond to a 1 Unit dose of insulin. Smaller values mean more insulin will be given when above target. Values that are too small can cause dangerously low blood glucose." = "La sensibilità all’insulina descrive il modo in cui la tua glicemia dovrebbe rispondere a una dose di insulina pari a 1 Unità. In caso di valori inferiori, al superamento del target verrà somministrata più insulina. Valori troppo bassi possono causare livelli di glicemia pericolosamente bassi.";
 
 /* Placeholder for maximum value in glucose range */
-"max" = "max";
+"max" = "massimo";
 
 /* The title text for the maximum basal rate value */
 "Maximum Basal Rate" = "Profilo Basale Massimo";
@@ -141,7 +141,7 @@
 "Medium" = "Medio";
 
 /* Placeholder for minimum value in glucose range */
-"min" = "min";
+"min" = "minimo";
 
 /* Alert action title to open error help */
 "More Info" = "Piu info";
@@ -230,7 +230,7 @@
 "The maximum allowed amount is %@ grams" = "La massima quantita permessa %@ grams";
 
 /* The schedule table view header describing the configured time zone difference from the default time zone. The substitution parameters are: (1: time zone name)(2: +/-)(3: time interval) */
-"Times in %1$@%2$@%3$@" = "Times in %1$@%2$@%3$@";
+"Times in %1$@%2$@%3$@" = "Volte tra %1$@%2$@%3$@";
 
 /* The unit string for units per hour */
 "U/hour" = "U/ora";

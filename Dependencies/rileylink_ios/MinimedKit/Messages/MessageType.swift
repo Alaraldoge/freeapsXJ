@@ -10,7 +10,7 @@ public enum MessageType: UInt8 {
     case alert                        = 0x01
     case alertCleared                 = 0x02
     case deviceTest                   = 0x03
-    case pumpStatus                   = 0x04
+    case mySentryPumpStatus           = 0x04
     case pumpAck                      = 0x06
     case pumpBackfill                 = 0x08
     case findDevice                   = 0x09
@@ -89,14 +89,14 @@ public enum MessageType: UInt8 {
     case readCaptureEventEnabled      = 0xf1  // Body[1] encodes the bool state 0101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     case changeCaptureEventEnable     = 0xf2
     case readOtherDevicesStatus       = 0xf3
-    
-    var bodyType: MessageBody.Type {
+
+    var decodeType: DecodableMessageBody.Type {
         switch self {
         case .alert:
             return MySentryAlertMessageBody.self
         case .alertCleared:
             return MySentryAlertClearedMessageBody.self
-        case .pumpStatus:
+        case .mySentryPumpStatus:
             return MySentryPumpStatusMessageBody.self
         case .pumpAck:
             return PumpAckMessageBody.self
@@ -142,8 +142,6 @@ public enum MessageType: UInt8 {
             return ReadOtherDevicesStatusMessageBody.self
         case .readRemoteControlIDs:
             return ReadRemoteControlIDsMessageBody.self
-        case .suspendResume:
-            return SuspendResumeMessageBody.self
         case .readFirmwareVersion:
             return GetPumpFirmwareVersionMessageBody.self
         default:

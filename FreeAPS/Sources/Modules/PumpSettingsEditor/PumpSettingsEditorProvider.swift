@@ -1,4 +1,5 @@
 import Combine
+import HealthKit
 import LoopKit
 import LoopKitUI
 
@@ -14,7 +15,7 @@ extension PumpSettingsEditor {
         func settings() -> PumpSettings {
             storage.retrieve(OpenAPS.Settings.settings, as: PumpSettings.self)
                 ?? PumpSettings(from: OpenAPS.defaults(for: OpenAPS.Settings.settings))
-                ?? PumpSettings(insulinActionCurve: 5, maxBolus: 10, maxBasal: 2)
+                ?? PumpSettings(insulinActionCurve: 6, maxBolus: 10, maxBasal: 2)
         }
 
         func save(settings: PumpSettings) -> AnyPublisher<Void, Error> {
@@ -32,12 +33,16 @@ extension PumpSettingsEditor {
                 return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
             }
             // Don't ask why 🤦‍♂️
-            let sync = DeliveryLimitSettingsTableViewController(style: .grouped)
-            sync.maximumBasalRatePerHour = Double(settings.maxBasal)
-            sync.maximumBolus = Double(settings.maxBolus)
+            // let sync = DeliveryLimitSettingsTableViewController(style: .grouped)
+            let limits = DeliveryLimits(
+                maximumBasalRate: HKQuantity(unit: .internationalUnitsPerHour, doubleValue: Double(settings.maxBasal)),
+                maximumBolus: HKQuantity(unit: .internationalUnit(), doubleValue: Double(settings.maxBolus))
+            )
+            // sync.maximumBasalRatePerHour = Double(settings.maxBasal)
+            // sync.maximumBolus = Double(settings.maxBolus)
             return Future { promise in
                 self.processQueue.async {
-                    pump.syncDeliveryLimitSettings(for: sync) { result in
+                    pump.syncDeliveryLimits(limits: limits) { result in
                         switch result {
                         case .success:
                             save()

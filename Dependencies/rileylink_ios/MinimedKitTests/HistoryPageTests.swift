@@ -33,10 +33,20 @@ class HistoryPageTests: XCTestCase {
             let startDate = ISO8601DateFormatter().date(from: "2020-11-20T00:00:00Z")!
             let timeZone = TimeZone(secondsFromGMT: -21600)!
             
-            let (timestampedEvents, hasMoreEvents, _) = page.timestampedEvents(after: startDate, timeZone: timeZone, model: .model522)
+            let (timestampedEvents, _, _) = page.timestampedEvents(after: startDate, timeZone: timeZone, model: .model522)
             
             XCTAssertEqual(11, timestampedEvents.count)
 
+        } catch {
+            XCTFail("Unexpected exception...")
+        }
+    }
+
+    func testDroppedBolus() {
+        let pumpModel = PumpModel.model523
+        do {
+            let events = try HistoryPage(pageData: Data(hexadecimalString:          "09010265144717002a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007b000265144717002a00140007651447177b000765144717002a00170008651447171800376414471733540266144717001601026614471733581b691447170016011b6914471701006a006a0000000c6d5447173300027014471700160002701447177b000270140717002a003300077014471700160007701447177b000770140717002a0033000a701447170016000a701447177b000a70140717002a0001000b000b006a00117354471701000400040074001c4155471700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c2c6")!, pumpModel: pumpModel)
+            print("events = \(events.events.count)")
         } catch {
             XCTFail("Unexpected exception...")
         }
@@ -69,16 +79,23 @@ class HistoryPageTests: XCTestCase {
             let duration = events[0] as! TempBasalDurationPumpEvent
             XCTAssertEqual(duration.duration, 30)
             XCTAssertEqual(duration.timestamp, DateComponents(gregorianYear: 2016, month: 4, day: 18, hour: 12, minute: 35, second: 57))
-            
+
             let tempBasal = events[1] as! TempBasalPumpEvent
             XCTAssertEqual(tempBasal.rateType, TempBasalPumpEvent.RateType.Absolute)
             XCTAssertEqual(tempBasal.rate, 0.4)
+            XCTAssertEqual(tempBasal.wasRemotelyTriggered, false)
             XCTAssertEqual(tempBasal.timestamp, DateComponents(gregorianYear: 2016, month: 4, day: 18, hour: 12, minute: 42, second: 10))
             
             let duration2 = events[2] as! TempBasalDurationPumpEvent
             XCTAssertEqual(duration2.duration, 30)
             XCTAssertEqual(duration2.timestamp, DateComponents(gregorianYear: 2016, month: 4, day: 18, hour: 12, minute: 42, second: 10))
-            
+
+            let tempBasal2 = events[3] as! TempBasalPumpEvent
+            XCTAssertEqual(tempBasal2.rateType, TempBasalPumpEvent.RateType.Absolute)
+            XCTAssertEqual(tempBasal2.rate, 0.2)
+            XCTAssertEqual(tempBasal2.wasRemotelyTriggered, false)
+            XCTAssertEqual(tempBasal2.timestamp, DateComponents(gregorianYear: 2016, month: 4, day: 18, hour: 13, minute: 0, second: 20))
+
         } catch HistoryPageError.invalidCRC {
             XCTFail("page decoding threw invalid crc")
         } catch HistoryPageError.unknownEventType(_) {
@@ -117,7 +134,8 @@ class HistoryPageTests: XCTestCase {
             XCTAssertEqual(bolus.programmed, 3.2)
             XCTAssertEqual(bolus.unabsorbedInsulinTotal, 0.9)
             XCTAssertEqual(bolus.timestamp, DateComponents(gregorianYear: 2016, month: 2, day: 21, hour: 10, minute: 34, second: 9))
-            
+            XCTAssertEqual(bolus.wasRemotelyTriggered, false)
+
             let unabsorbedInsulinRecords = bolus.unabsorbedInsulinRecord!.records
             XCTAssertEqual(unabsorbedInsulinRecords.count, 3)
             XCTAssertEqual(unabsorbedInsulinRecords[0].amount, 1.6)

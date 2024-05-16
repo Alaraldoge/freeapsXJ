@@ -35,9 +35,6 @@
 /* The title of the cell showing the pod activated at time */
 "Active Time" = "Pod启动时间";
 
-/* The title of the cell showing the Pod Active Clock */
-"Pod Active Clock" = "Pod已启用时间";
-
 /* The title of the cell showing alarm status */
 "Alarms" = "提醒";
 
@@ -71,9 +68,6 @@
 /* The title of the configuration section in settings */
 "Configuration" = "配置";
 
-/* The title of the Insulin Type */
-"Insulin Type" = "胰岛素类型";
-
 /* The title of the continue action in an action sheet */
 "Continue" = "继续";
 
@@ -104,18 +98,6 @@
 
 /* The alert title for enable bolus beeps error */
 "Error enabling bolus beeps" = "启用大剂量输注中提醒错误";
-
-/* The alert title for enable Confirmation Beeps */
-"Enable Confirmation Beeps" = "启动命令成功提醒";
-
-/* The alert title for Disable Confirmation Beep */
-"Disable Confirmation Beeps" = "禁用命令成功提醒";
-
-/* The alert title for enable Automatic Bolus Beeps */
-"Enable Automatic Bolus Beeps" = "启用自动大剂量成功提醒";
-
-/* The alert title for Disable Automatic Bolus Beeps */
-"Disable Automatic Bolus Beeps" = "禁用自动大剂量成功提醒";
 
 /* The alert title for a resume error */
 "Error Resuming" = "恢复输注错误";
@@ -213,10 +195,10 @@
 
 /* Title of button to save delivery limit settings
    Title of button to sync basal profile when no pod paired */
-"Save" = "保存";
+"Save" = "保存​​";
 
 /* The detail text of the basal row when pod is running scheduled basal */
-"Schedule" = "预设";
+"Schedule" = "设定时间";
 
 /* The title of the status section in settings */
 "Status" = "状态";
@@ -247,15 +229,3 @@
 
 /* The detail text for delivered insulin when no measurement is available */
 "Unknown" = "未知";
-
-/* The title of the diagnostics section in settings */
-"Diagnostics" = "诊断";
-
-/* The diagnostic command Read Pod Status */
-"Read Pod Status" = "读取Pod状态";
-
-/* The diagnostic command Read Pulse Log */
-"Read Pulse Log" = "读取Pulse日志";
-
-/* The title of the pod details section in settings */
-"Pod Details" = "Pod详情";

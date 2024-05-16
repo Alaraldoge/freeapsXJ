@@ -18,7 +18,7 @@ func debug(
     line: UInt = #line
 ) {
     let msg = message()
-    DispatchWorkItem(qos: .userInteractive, flags: .enforceQoS) {
+    DispatchWorkItem(qos: .background, flags: .enforceQoS) {
         loggerLock.perform {
             category.logger.debug(msg, printToConsole: printToConsole, file: file, function: function, line: line)
         }
@@ -28,13 +28,14 @@ func debug(
 func info(
     _ category: Logger.Category,
     _ message: String,
+    type: MessageType = .info,
     file: String = #file,
     function: String = #function,
     line: UInt = #line
 ) {
-    DispatchWorkItem(qos: .userInteractive, flags: .enforceQoS) {
+    DispatchWorkItem(qos: .background, flags: .enforceQoS) {
         loggerLock.perform {
-            category.logger.info(message, file: file, function: function, line: line)
+            category.logger.info(message, type: type, file: file, function: function, line: line)
         }
     }.perform()
 }
@@ -48,7 +49,7 @@ func warning(
     function: String = #function,
     line: UInt = #line
 ) {
-    DispatchWorkItem(qos: .userInteractive, flags: .enforceQoS) {
+    DispatchWorkItem(qos: .background, flags: .enforceQoS) {
         loggerLock.perform {
             category.logger.warning(
                 message,
@@ -220,6 +221,7 @@ final class Logger {
 
     func info(
         _ message: String,
+        type: MessageType = .info,
         file: String = #file,
         function: String = #function,
         line: UInt = #line
@@ -228,7 +230,7 @@ final class Logger {
         os_log("%@ - %@ - %d %{public}@", log: log, type: .info, file.file, function, line, printedMessage)
         reporter.log(category.name, printedMessage, file: file, function: function, line: line)
 
-        showAlert(message)
+        showAlert(message, type: type)
     }
 
     func warning(
@@ -264,9 +266,10 @@ final class Logger {
         )
     }
 
-    private func showAlert(_ message: String) {
+    private func showAlert(_ message: String, type: MessageType = .info) {
         DispatchQueue.main.async {
-            router.alertMessage.send(message)
+            let messageCont = MessageContent(content: message, type: type)
+            router.alertMessage.send(messageCont)
         }
     }
 

@@ -7,6 +7,7 @@ enum CGMType: String, JSON, CaseIterable, Identifiable {
     case xdrip
     case dexcomG6
     case dexcomG5
+    case dexcomG7
     case simulator
     case libreTransmitter
     case glucoseDirect
@@ -24,6 +25,8 @@ enum CGMType: String, JSON, CaseIterable, Identifiable {
             return "Dexcom G6"
         case .dexcomG5:
             return "Dexcom G5"
+        case .dexcomG7:
+            return "Dexcom G7"
         case .simulator:
             return NSLocalizedString("Glucose Simulator", comment: "Glucose Simulator CGM type")
         case .libreTransmitter:
@@ -44,6 +47,8 @@ enum CGMType: String, JSON, CaseIterable, Identifiable {
             return URL(string: "libredirect://")!
         case .dexcomG6:
             return URL(string: "dexcomg6://")!
+        case .dexcomG7:
+            return URL(string: "dexcomg7://")!
         case .dexcomG5:
             return URL(string: "dexcomgcgm://")!
         case .simulator:
@@ -69,13 +74,15 @@ enum CGMType: String, JSON, CaseIterable, Identifiable {
             return NSLocalizedString("Online or internal server", comment: "Online or internal server")
         case .xdrip:
             return NSLocalizedString(
-                "Shared app group for direct connection with Libre 1 transmitters or European Libre 2 sensors",
-                comment: "Shared app group for direct connection with Libre 1 transmitters or European Libre 2 sensors"
+                "Using shared app group with external CGM app xDrip4iOS",
+                comment: "Shared app group xDrip4iOS"
             )
         case .dexcomG6:
-            return NSLocalizedString("Native G6 app", comment: "Native G6 app")
+            return NSLocalizedString("Dexcom G6 app", comment: "Dexcom G6 app")
         case .dexcomG5:
             return NSLocalizedString("Native G5 app", comment: "Native G5 app")
+        case .dexcomG7:
+            return NSLocalizedString("Dexcom G7 app", comment: "Dexcom G76 app")
         case .simulator:
             return NSLocalizedString("Simple simulator", comment: "Simple simulator")
         case .libreTransmitter:
@@ -85,11 +92,16 @@ enum CGMType: String, JSON, CaseIterable, Identifiable {
             )
         case .glucoseDirect:
             return NSLocalizedString(
-                "Shared app group for direct connection with Libre 1 transmitters or European Libre 2 sensors",
-                comment: "Shared app group for direct connection with Libre 1 transmitters or European Libre 2 sensors"
+                "Using shared app group with external CGM app GlucoseDirect",
+                comment: "Shared app group GlucoseDirect"
             )
         case .enlite:
             return NSLocalizedString("Minilink transmitter", comment: "Minilink transmitter")
         }
     }
+}
+
+enum GlucoseDataError: Error {
+    case noData
+    case unreliableData
 }

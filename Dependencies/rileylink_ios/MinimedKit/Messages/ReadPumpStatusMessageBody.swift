@@ -8,7 +8,11 @@
 
 import Foundation
 
-public class ReadPumpStatusMessageBody: CarelinkLongMessageBody {
+public class ReadPumpStatusMessageBody: DecodableMessageBody {
+
+    public static var length: Int = 65
+
+    public var txData: Data
 
     public let bolusing: Bool
     public let suspended: Bool
@@ -20,12 +24,16 @@ public class ReadPumpStatusMessageBody: CarelinkLongMessageBody {
 
         bolusing = rxData[2] > 0
         suspended = rxData[3] > 0
-
-        super.init(rxData: rxData)
+        self.txData = rxData
     }
 
-    public required init?(rxData: NSData) {
-        fatalError("init(rxData:) has not been implemented")
+    public init(bolusing: Bool, suspended: Bool) {
+        self.bolusing = bolusing
+        self.suspended = suspended
+        self.txData = Data(hexadecimalString: "0303\(bolusing ? "01" : "00")\(suspended ? "01" : "00")")!.paddedTo(length: 65)
     }
-    
+
+    public var description: String {
+        return "ReadPumpStatus(bolusing:\(bolusing), suspended:\(suspended))"
+    }
 }

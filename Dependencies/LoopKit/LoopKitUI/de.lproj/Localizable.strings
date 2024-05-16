@@ -3,7 +3,7 @@
 "%1$@ %2$@" = "%1$@ %2$@";
 
 /* Accessibility format string for (1: localized volume)(2: time) */
-"%1$@ units remaining at %2$@" = "%1$@ Einheiten verbleiben um %2$@";
+"%1$@ units remaining at %2$@" = "%1$@ Einheiten verbleiben bei %2$@";
 
 /* The format for a glucose target range. (1: min target)(2: max target)(3: glucose unit) */
 "%1$@ – %2$@ %3$@" = "%1$@ – %2$@ %3$@";
@@ -63,7 +63,7 @@
 "Changes will only apply this time you enable the override. The default settings of %@ will not be affected." = "Änderungen werden nur dann wirksam, wenn Sie den Override aktivieren. Die Standardeinstellungen von %@ werden nicht beeinflusst.";
 
 /* Carb entry section footer text explaining absorption time */
-"Choose a longer absorption time for larger meals, or those containing fats and proteins. This is only guidance to the algorithm and need not be exact." = "Wähle eine längere absorbtionszeit für größere Mahlzeiten, oder welche viel Fett und Proteine beinhalten. Dies ist eine Unterstützung für den Algorithmus und muss nicht genau sein.";
+"Choose a longer absorption time for larger meals, or those containing fats and proteins. This is only guidance to the algorithm and need not be exact." = "Wähle eine längere Absorbtionszeit für größere Mahlzeiten, oder welche viel Fett und Proteine beinhalten. Dies ist eine Unterstützung für den Algorithmus und muss nicht genau sein.";
 
 /* The format string describing the date of a COB value. The first format argument is the localized date. */
 "com.loudnate.CarbKit.COBDateLabel" = "bei %1$@";
@@ -84,13 +84,13 @@
 "Condition" = "Bedingung";
 
 /* Title of the setup button to continue */
-"Continue" = "Weiter";
+"Continue" = "Fortsetzen";
 
 /* The section footer of correction range schedule */
 "Correction range is the blood glucose range that you would like Loop to correct to." = "Der Korrekturbereich ist der Blutzuckerbereich, auf den Loop korrigieren soll.";
 
 /* The text for a custom override */
-"Custom" = "Benutzerdefiniert";
+"Custom" = "Benutzerdefiniertes";
 
 /* The title for the custom override entry screen */
 "Custom Override" = "Benutzerdefinierter Override";
@@ -141,7 +141,7 @@
 "Medium" = "Mittlere";
 
 /* Placeholder for minimum value in glucose range */
-"min" = "minimal";
+"min" = "min";
 
 /* Alert action title to open error help */
 "More Info" = "Weitere Info";
@@ -154,7 +154,7 @@
 
 /* Section title for no-carb food
    The title for override emoji miscellaneous section */
-"Other" = "Andere";
+"Other" = "Sonstiges";
 
 /* The title text for the insulin sensitivity scaling setting */
 "Overall Insulin Needs" = "Gesamtinsulinbedarf";
@@ -188,7 +188,7 @@
 
 /* Button text for saving glucose correction range schedule
    Button text for saving insulin sensitivity schedule */
-"Save" = "Sichern";
+"Save" = "Speichern";
 
 /* The section header text for a scheduled override */
 "SCHEDULED OVERRIDE" = "GEPLANTER OVERRIDE";

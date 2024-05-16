@@ -35,9 +35,6 @@
 /* The title of the cell showing the pod activated at time */
 "Active Time" = "Active Time";
 
-/* The title of the cell showing the Pod Active Clock */
-"Pod Active Clock" = "Pod Active Clock";
-
 /* The title of the cell showing alarm status */
 "Alarms" = "Alarms";
 
@@ -60,7 +57,7 @@
 "Bolus Delivery" = "Bolus Delivery";
 
 /* The title of the cancel action in an action sheet */
-"Cancel" = "Cancel";
+"Cancel" = "Cancelar";
 
 /* The title of the command to change pump time zone */
 "Change Time Zone" = "Change Time Zone";
@@ -69,10 +66,7 @@
 "Changing time…" = "Changing time…";
 
 /* The title of the configuration section in settings */
-"Configuration" = "Configuration";
-
-/* The title of the Insulin Type */
-"Insulin Type" = "Insulin Type";
+"Configuration" = "Ajustes";
 
 /* The title of the continue action in an action sheet */
 "Continue" = "Continue";
@@ -104,18 +98,6 @@
 
 /* The alert title for enable bolus beeps error */
 "Error enabling bolus beeps" = "Error enabling bolus beeps";
-
-/* The alert title for enable Confirmation Beeps */
-"Enable Confirmation Beeps" = "Enable Confirmation Beeps";
-
-/* The alert title for Disable Confirmation Beep */
-"Disable Confirmation Beeps" = "Disable Confirmation Beeps";
-
-/* The alert title for enable Automatic Bolus Beeps */
-"Enable Automatic Bolus Beeps" = "Enable Automatic Bolus Beeps";
-
-/* The alert title for Disable Automatic Bolus Beeps */
-"Disable Automatic Bolus Beeps" = "Disable Automatic Bolus Beeps";
 
 /* The alert title for a resume error */
 "Error Resuming" = "Error Resuming";
@@ -213,10 +195,10 @@
 
 /* Title of button to save delivery limit settings
    Title of button to sync basal profile when no pod paired */
-"Save" = "Save";
+"Save" = "Salvar";
 
 /* The detail text of the basal row when pod is running scheduled basal */
-"Schedule" = "Schedule";
+"Schedule" = "Agenda";
 
 /* The title of the status section in settings */
 "Status" = "Status";
@@ -247,15 +229,3 @@
 
 /* The detail text for delivered insulin when no measurement is available */
 "Unknown" = "Unknown";
-
-/* The title of the diagnostics section in settings */
-"Diagnostics" = "Diagnostics";
-
-/* The diagnostic command Read Pod Status */
-"Read Pod Status" = "Read Pod Status";
-
-/* The diagnostic command Read Pulse Log */
-"Read Pulse Log" = "Read Pulse Log";
-
-/* The title of the pod details section in settings */
-"Pod Details" = "Pod Details";

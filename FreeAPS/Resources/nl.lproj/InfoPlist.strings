@@ -8,13 +8,13 @@
 "NSBluetoothPeripheralUsageDescription" = "Bluetooth wordt gebruikt om te communiceren met de insuline pomp en de continue glucose meter";
 
 /* Privacy - Face ID Usage Description */
-"NSFaceIDUsageDescription" = "Voor toegang om een bolus te geven";
+"NSFaceIDUsageDescription" = "Voor geautoriseerde toegang tot bolus";
 
 /* Privacy - Calendars Usage Description */
 "NSCalendarsUsageDescription" = "Agenda wordt gebruikt om nieuwe glucose gebeurtenissen aan te maken.";
 
 /* Privacy - Health Update Usage Description */
-"NSHealthUpdateUsageDescription" = "De gezondheid app wordt gebruikt om bloedglucose gegevens op te slaan";
+"NSHealthUpdateUsageDescription" = "Apple Gezondheid wordt gebruikt om bloedglucose, insuline en koolhydraten op te slaan";
 
 /* Privacy - Health Share Usage Description */
-"NSHealthShareUsageDescription" = "De gezondheid app wordt gebruikt om bloedglucose gegevens op te slaan";
+"NSHealthShareUsageDescription" = "Apple Gezondheid wordt gebruikt om bloedglucose, insuline en koolhydraten op te slaan";

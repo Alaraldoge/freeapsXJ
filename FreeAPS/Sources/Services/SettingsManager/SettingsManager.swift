@@ -1,10 +1,12 @@
 import Foundation
+import LoopKit
 import Swinject
 
 protocol SettingsManager: AnyObject {
     var settings: FreeAPSSettings { get set }
     var preferences: Preferences { get }
     var pumpSettings: PumpSettings { get }
+    func updateInsulinCurve(_ insulinType: InsulinType?)
 }
 
 protocol SettingsObserver {
@@ -50,6 +52,24 @@ final class BaseSettingsManager: SettingsManager, Injectable {
     var pumpSettings: PumpSettings {
         storage.retrieve(OpenAPS.Settings.settings, as: PumpSettings.self)
             ?? PumpSettings(from: OpenAPS.defaults(for: OpenAPS.Settings.settings))
-            ?? PumpSettings(insulinActionCurve: 5, maxBolus: 10, maxBasal: 2)
+            ?? PumpSettings(insulinActionCurve: 6, maxBolus: 10, maxBasal: 2)
+    }
+
+    func updateInsulinCurve(_ insulinType: InsulinType?) {
+        var prefs = preferences
+
+        switch insulinType {
+        case .apidra,
+             .humalog,
+             .novolog:
+            prefs.curve = .rapidActing
+
+        case .fiasp,
+             .lyumjev:
+            prefs.curve = .ultraRapid
+        default:
+            prefs.curve = .rapidActing
+        }
+        storage.save(prefs, as: OpenAPS.Settings.preferences)
     }
 }

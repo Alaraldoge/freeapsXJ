@@ -24,6 +24,7 @@ enum DataTable {
 
     enum DataType: String, Equatable {
         case carbs
+        case fpus
         case bolus
         case tempBasal
         case tempTarget
@@ -35,6 +36,8 @@ enum DataTable {
             switch self {
             case .carbs:
                 name = "Carbs"
+            case .fpus:
+                name = "Protein / Fat"
             case .bolus:
                 name = "Bolus"
             case .tempBasal:
@@ -52,13 +55,16 @@ enum DataTable {
     }
 
     class Treatment: Identifiable, Hashable, Equatable {
-        let id = UUID()
+        let id: String
+        let idPumpEvent: String?
         let units: GlucoseUnits
         let type: DataType
         let date: Date
         let amount: Decimal?
         let secondAmount: Decimal?
         let duration: Decimal?
+        let isFPU: Bool?
+        let fpuID: String?
 
         private var numberFormater: NumberFormatter {
             let formatter = NumberFormatter()
@@ -73,7 +79,11 @@ enum DataTable {
             date: Date,
             amount: Decimal? = nil,
             secondAmount: Decimal? = nil,
-            duration: Decimal? = nil
+            duration: Decimal? = nil,
+            id: String? = nil,
+            idPumpEvent: String? = nil,
+            isFPU: Bool? = false,
+            fpuID: String? = nil
         ) {
             self.units = units
             self.type = type
@@ -81,6 +91,10 @@ enum DataTable {
             self.amount = amount
             self.secondAmount = secondAmount
             self.duration = duration
+            self.id = id ?? UUID().uuidString
+            self.idPumpEvent = idPumpEvent
+            self.isFPU = isFPU
+            self.fpuID = fpuID
         }
 
         static func == (lhs: Treatment, rhs: Treatment) -> Bool {
@@ -103,6 +117,9 @@ enum DataTable {
             switch type {
             case .carbs:
                 return numberFormater.string(from: amount as NSNumber)! + NSLocalizedString(" g", comment: "gram of carbs")
+            case .fpus:
+                return numberFormater
+                    .string(from: amount as NSNumber)! + NSLocalizedString(" g", comment: "gram of carb equilvalents")
             case .bolus:
                 return numberFormater.string(from: amount as NSNumber)! + NSLocalizedString(" U", comment: "Insulin unit")
             case .tempBasal:
@@ -133,6 +150,8 @@ enum DataTable {
             switch type {
             case .carbs:
                 return .loopYellow
+            case .fpus:
+                return .red
             case .bolus:
                 return .insulin
             case .tempBasal:
@@ -172,6 +191,7 @@ protocol DataTableProvider: Provider {
     func tempTargets() -> [TempTarget]
     func carbs() -> [CarbsEntry]
     func glucose() -> [BloodGlucose]
-    func deleteCarbs(at date: Date)
+    func deleteCarbs(_ treatement: DataTable.Treatment)
+    func deleteInsulin(_ treatement: DataTable.Treatment)
     func deleteGlucose(id: String)
 }
